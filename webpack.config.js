@@ -3,7 +3,7 @@ var webpack = require('webpack');
 
 module.exports = {
 
-  devtool: 'eval-cheap-module-source-map',
+  // devtool: 'eval-cheap-module-source-map',
 
   entry: [
     path.join(__dirname, 'src/client.js')
