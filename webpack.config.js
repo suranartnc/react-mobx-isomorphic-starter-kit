@@ -6,6 +6,7 @@ module.exports = {
   // devtool: 'eval-cheap-module-source-map',
 
   entry: [
+    'webpack-hot-middleware/client',
     path.join(__dirname, 'src/client.js')
   ],
 
@@ -40,6 +41,7 @@ module.exports = {
         'NODE_ENV': JSON.stringify('development'),
         'BROWSER': true
       }
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ]
 };
