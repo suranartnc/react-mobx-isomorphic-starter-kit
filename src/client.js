@@ -3,52 +3,45 @@ import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-class Todo {
-    id = Math.random();
-    @observable title;
-    @observable finished = false;
-    constructor(title) {
-        this.title = title;
-    }
-}
-
-class TodoList {
-    @observable todos = [];
-    @computed get unfinishedTodoCount() {
-        return this.todos.filter(todo => !todo.finished).length;
+class BlogStore {
+    @observable posts = []
+    @computed get postCount() {
+        return this.posts.length
     }
 }
 
 @observer
-class TodoListView extends Component {
+class BlogList extends Component {
     render() {
-        return <div>
-            <ul>
-                {this.props.todoList.todos.map(todo => 
-                    <TodoView todo={todo} key={todo.id} />
-                )}
-            </ul>
-            Tasks left: {this.props.todoList.unfinishedTodoCount}
-        </div>
+        return (
+            <div>
+                <ul>
+                    {this.props.store.posts.map((post, index) => {
+                        <li id={post.id}>{post.title}</li>
+                    })}
+                </ul>
+            </div>
+        )
     }
 }
 
-const TodoView = observer(({todo}) => 
-    <li>
-        <input
-            type="checkbox"
-            checked={todo.finished}
-            onClick={() => todo.finished = !todo.finished}
-        />{todo.title}
-    </li>
-);
+@observer
+class BlogApp extends Component {
+    render() {
+        return (
+            <div>
+                <BlogList {...this.props} />
+                <p>{ this.props.store.postCount } Posts</p>
+            </div>
+        )
+    }
+}
 
-const store = new TodoList();
+const store = new BlogStore()
 
-ReactDOM.render(<TodoListView todoList={store} />, document.getElementById('app'));
+ReactDOM.render(<BlogApp store={store} />, document.getElementById('app'));
 
-store.todos.push(
-    new Todo("Get Coffee"),
-    new Todo("Write simpler code")
-);
-store.todos[0].finished = true;
+store.posts.push({
+    id: Math.random(),
+    title: 'Title 1'
+})
