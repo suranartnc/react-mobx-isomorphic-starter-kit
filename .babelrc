@@ -9,10 +9,5 @@
     	"transform-class-properties",
     	"syntax-async-functions",
     	"fast-async"
-    ],
-    "env": {
-        "development": {
-          "presets": ["react-hmre"]
-        }
-    }
+    ]
 }

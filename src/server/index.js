@@ -6,10 +6,10 @@ import serverRendering from './serverRendering';
 const app = express();
 const compiler = webpack(webpackConfig);
 
-app.use(express.static('static'));
+app.use(express.static(`${__dirname}/static`));
 
 app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true, 
+  noInfo: true,
   publicPath: webpackConfig.output.publicPath
 }));
 app.use(require('webpack-hot-middleware')(compiler));

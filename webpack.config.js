@@ -3,7 +3,8 @@ var webpack = require('webpack');
 
 module.exports = {
 
-  // devtool: 'eval-cheap-module-source-map',
+  cache: true,
+  devtool: 'eval-source-map',
 
   entry: [
     'webpack-hot-middleware/client',
@@ -22,7 +23,10 @@ module.exports = {
       {
         test: /\.js?$/,
         loader: 'babel',
-        exclude: /node_modules/
+        exclude: /node_modules|\.git/,
+        query: {
+          presets: ['react-hmre']
+        }
       }
     ]
   },
@@ -36,12 +40,13 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('development'),
         'BROWSER': true
       }
-    }),
-    new webpack.HotModuleReplacementPlugin()
+    })
   ]
 };
